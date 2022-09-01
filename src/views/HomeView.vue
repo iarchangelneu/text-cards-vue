@@ -11,7 +11,6 @@
 <script>
 import { mapActions } from 'vuex'
 import CardsList from '@/components/CardsList.vue'
-import axios from 'axios'
 export default {
   components:{
     CardsList
@@ -24,12 +23,10 @@ export default {
   },
   methods:{
     ...mapActions(['getCards']),
+    ...mapActions(['getAuthors']),
 
-     loadAuthors(){
-      const url = 'https://jsonplaceholder.typicode.com/users/'
-        axios.get(url).then(response => {
-            this.users = response.data
-          })    
+    async loadAuthors(){
+     this.users = await this.getAuthors()
     },
     
         async loadCards(){
@@ -42,7 +39,7 @@ export default {
 
   },
  async mounted(){
-    this.loadAuthors()
+    await  this.loadAuthors()
     await this.loadCards() 
   },
 }
